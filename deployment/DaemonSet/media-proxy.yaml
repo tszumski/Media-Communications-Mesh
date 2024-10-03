@@ -46,10 +46,6 @@ spec:
             runAsUser: 0
             runAsGroup: 0
           ports:
-            - containerPort: 8001
-              hostPort: 8001
-              protocol: TCP
-              name: grpc-port
             - containerPort: 8002
               hostPort: 8002
               protocol: TCP

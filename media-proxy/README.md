@@ -17,12 +17,10 @@ And the "Media Proxy" can be run with below command.
 ```bash
 $ media_proxy
 INFO: TCP Server listening on 0.0.0.0:8002
-INFO: gRPC Server listening on 0.0.0.0:8001
 ```
 
-If Media Proxy successfully launches up, it will open 2 port to listen on control messages.
-- gRPC port (default 8001) is for service mesh control plane connection.
-- TCP port (default 8002) is for the connection with MCM SDK.
+If Media Proxy successfully launches up, it will open port to listen on control messages.
+- TCP port (default 8002) for the connection with MCM SDK.
 
 All supported parameters can get with the program "helper" function.
 ```bash
@@ -31,7 +29,6 @@ Usage: media_proxy [OPTION]
 -h, --help              Print this help and exit.
 -d, --dev=dev_port      PCI device port (defaults: 0000:31:00.0).
 -i, --ip=ip_address     IP address for media data transportation (defaults: 192.168.96.1).
--g, --grpc=port_number  Port number gRPC controller (defaults: 8001).
 -t, --tcp=port_number   Port number for TCP socket controller (defaults: 8002).
 ```
 

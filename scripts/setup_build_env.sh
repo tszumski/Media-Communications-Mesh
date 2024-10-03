@@ -17,8 +17,6 @@ export XDP_VER="d7edea3590052581c5fda5f8cfa40ae7be94f05c"
 export XDP_DIR="${REPO_DIR}/build/xdp"
 export BPF_VER="42065ea6627ff6e1ab4c65e51042a70fbf30ff7c"
 export BPF_DIR="${XDP_DIR}/lib/libbpf"
-export GPRC_VER="v1.58.0"
-export GRPC_DIR="${REPO_DIR}/build/grpc"
 export JPEGXS_VER="e1030c6c8ee2fb05b76c3fa14cccf8346db7a1fa"
 export JPEGXS_DIR="${REPO_DIR}/build/jpegxs"
 export LIBFABRIC_VER="v1.22.0"
@@ -68,7 +66,7 @@ function git_download_strip_unpack()
     rm -f "${dest_dir}/${filename}.tar.gz"
 }
 
-mkdir -p "${MCM_DIR}" "${MTL_DIR}" "${DPDK_DIR}" "${XDP_DIR}" "${GRPC_DIR}" "${JPEGXS_DIR}" "${LIBFABRIC_DIR}"
+mkdir -p "${MCM_DIR}" "${MTL_DIR}" "${DPDK_DIR}" "${XDP_DIR}" "${JPEGXS_DIR}" "${LIBFABRIC_DIR}"
 
 # Install package dependencies
 apt-get update --fix-missing && \
@@ -95,10 +93,7 @@ apt-get install --no-install-recommends -y \
     autoconf \
     automake \
     autotools-dev \
-    libtool \
-    grpc-proto \
-    protobuf-compiler-grpc \
-    libgrpc10
+    libtool
 
 # Clone MTL, DPDK and xdp-tools repo
 git_download_strip_unpack "OpenVisualCloud/Media-Transport-Library" "${MTL_VER}" "${MTL_DIR}"
@@ -106,7 +101,6 @@ git_download_strip_unpack "dpdk/dpdk" "refs/tags/v${DPDK_VER}" "${DPDK_DIR}"
 git_download_strip_unpack "xdp-project/xdp-tools" "${XDP_VER}" "${XDP_DIR}"
 git_download_strip_unpack "libbpf/libbpf" "${BPF_VER}" "${BPF_DIR}"
 git_download_strip_unpack "ofiwg/libfabric" "${LIBFABRIC_VER}" "${LIBFABRIC_DIR}"
-# git clone --branch ${GPRC_VER} --recurse-submodules --depth 1 --shallow-submodules https://github.com/grpc/grpc "${GRPC_DIR}" && \
 git_download_strip_unpack "OpenVisualCloud/SVT-JPEG-XS" "${JPEGXS_VER}" "${JPEGXS_DIR}"
 
 # Build the xdp-tools project
@@ -138,17 +132,6 @@ pushd "${MTL_DIR}"
 ./build.sh && \
 meson install -C build
 install script/nicctl.sh /usr/bin
-popd
-
-# gRPC
-mkdir -p "${GRPC_DIR}/cmake/build"
-pushd "${GRPC_DIR}/cmake/build"
-cmake -DgRPC_BUILD_TESTS=OFF -DgRPC_INSTALL=ON ../.. && \
-make -j "${NPROC}" && \
-make install && \
-cmake -DgRPC_BUILD_TESTS=ON -DgRPC_INSTALL=ON ../.. && \
-make -j "${NPROC}" grpc_cli && \
-cp grpc_cli "/usr/local/bin/"
 popd
 
 # Build and install JPEG XS

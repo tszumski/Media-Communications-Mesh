@@ -11,8 +11,8 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include <algorithm>
 
-#include "controller.grpc.pb.h"
 #include "mtl.h"
 #include "libfabric_dev.h"
 #include "rdma_session.h"
@@ -25,23 +25,10 @@
 #define ST_APP_PAYLOAD_TYPE_ST22 (114)
 #endif
 
-using controller::MemIFOps;
-using controller::RxControlRequest;
-using controller::St20pRxOps;
-using controller::St20pTxOps;
-using controller::StInit;
-using controller::StopControlRequest;
-using controller::StRxPort;
-using controller::StTxPort;
-using controller::TxControlRequest;
-
 #pragma once
 
 class ProxyContext {
 public:
-    std::string mRpcCtrlAddr;
-    int mRpcCtrlPort;
-
     std::string mTcpCtrlAddr;
     int mTcpCtrlPort;
 
@@ -65,9 +52,8 @@ public:
     std::string mDpPort;
 
     ProxyContext(void);
-    ProxyContext(std::string_view rpc_addr, std::string_view tcp_addr);
+    ProxyContext(std::string_view tcp_addr);
 
-    void setRPCListenAddress(std::string_view addr);
     void setTCPListenAddress(std::string_view addr);
     void setDevicePort(std::string_view dev);
     void setDataPlaneAddress(std::string_view ip);
@@ -77,20 +63,13 @@ public:
     std::string getDataPlaneAddress(void);
     std::string getDataPlanePort(void);
 
-    std::string getRPCListenAddress(void);
     std::string getTCPListenAddress(void);
     int getTCPListenPort(void);
 
-    void ParseStInitParam(const TxControlRequest* request, struct mtl_init_params* init_param);
-    void ParseStInitParam(const RxControlRequest* request, struct mtl_init_params* init_param);
     void ParseStInitParam(const mcm_conn_param* request, struct mtl_init_params* init_param);
 
-    void ParseMemIFParam(const TxControlRequest* request, memif_ops_t& memif_ops);
-    void ParseMemIFParam(const RxControlRequest* request, memif_ops_t& memif_ops);
     void ParseMemIFParam(const mcm_conn_param* request, memif_ops_t& memif_ops);
 
-    void ParseSt20TxOps(const TxControlRequest* request, struct st20p_tx_ops* opts);
-    void ParseSt20RxOps(const RxControlRequest* request, struct st20p_rx_ops* opts);
     void ParseSt20TxOps(const mcm_conn_param* request, struct st20p_tx_ops* opts);
     void ParseSt20RxOps(const mcm_conn_param* request, struct st20p_rx_ops* opts);
     void ParseSt22TxOps(const mcm_conn_param* request, struct st22p_tx_ops* opts);
@@ -99,8 +78,6 @@ public:
     void ParseSt30RxOps(const mcm_conn_param* request, struct st30_rx_ops* opts);
     void ParseSt40TxOps(const mcm_conn_param* request, struct st40_tx_ops* opts);
     void ParseSt40RxOps(const mcm_conn_param* request, struct st40_rx_ops* opts);
-    int TxStart(const TxControlRequest* request);
-    int RxStart(const RxControlRequest* request);
     int TxStart(const mcm_conn_param* request);
     int RxStart(const mcm_conn_param* request);
     void TxStop(const int32_t session_id);

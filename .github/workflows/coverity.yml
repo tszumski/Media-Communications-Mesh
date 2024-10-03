@@ -16,8 +16,6 @@ env:
   LIBFABRIC_DIR: /tmp/libfabric
   XDP_VERSION: 5c88569dd15e55db678b897b8ea2a73aeaf956f4
   XDP_DIR: /tmp/xdp
-  GRPC_VERSION: v1.58.0
-  GRPC_DIR: /tmp/grpc
   PREFIX_DIR: /usr/local
   DEBIAN_FRONTEND: noninteractive
 
@@ -73,32 +71,6 @@ jobs:
       run: |
         git clone --depth 1 https://github.com/OpenVisualCloud/Media-Transport-Library.git imtl
         pushd imtl && ./build.sh && popd
-
-    - name: 'Restore cached for gRPC build'
-      id: grpc-cache-restore
-      uses: actions/cache/restore@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
-      with:
-        path: ${{ env.GRPC_DIR }}
-        key: Linux-grpc${{ env.GRPC_VERSION }}
-
-    - name: 'Build gRPC'
-      if: steps.grpc-cache-restore.outputs.cache-hit != 'true'
-      run: |
-          git clone --branch ${GRPC_VERSION} --recurse-submodules --depth 1 --shallow-submodules https://github.com/grpc/grpc "${GRPC_DIR}" && \
-          cmake -DgRPC_INSTALL=ON -DgRPC_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=${PREFIX_DIR} \
-            -B "${GRPC_DIR}/cmake/build" -S "${GRPC_DIR}" && \
-          cmake --build "${GRPC_DIR}/cmake/build" -j `nproc`
-
-    - name: 'Save cache for gRPC build'
-      id: grpc-cache-save
-      if: steps.grpc-cache-restore.outputs.cache-hit != 'true'
-      uses: actions/cache/save@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
-      with:
-        path: ${{ env.GRPC_DIR }}
-        key: ${{ steps.grpc-cache-restore.outputs.cache-primary-key }}
-
-    - name: 'Install gRPC'
-      run: sudo cmake --install "${GRPC_DIR}/cmake/build"
 
     - name: 'Patch and configure MCM FFmpeg plugin'
       working-directory: ${{ github.workspace }}/ffmpeg-plugin

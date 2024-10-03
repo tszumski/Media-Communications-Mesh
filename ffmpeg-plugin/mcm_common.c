@@ -35,8 +35,6 @@ int mcm_parse_conn_param(AVFormatContext* avctx, mcm_conn_param *param,
         param->protocol = PROTO_TCP;
     } else if (!strcmp(protocol_type, "http")) {
         param->protocol = PROTO_HTTP;
-    } else if (!strcmp(protocol_type, "grpc")) {
-        param->protocol = PROTO_GRPC;
     } else {
         param->protocol = PROTO_AUTO;
     }

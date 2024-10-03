@@ -67,7 +67,6 @@ Detailed information about MCM SDK can be found in [sdk](sdk) directory.
     b) The following method is universal and should work for most Linux OS distributions.
 
     - MTL: Follow the [MTL setup guide](https://github.com/OpenVisualCloud/Media-Transport-Library/blob/main/doc/build.md) for installation.
-    - gRPC: Refer to the [gRPC documentation](https://grpc.io/docs/languages/cpp/quickstart/) for installation instructions.
     - Install required packages:
         - Ubuntu/Debian
         ```bash
@@ -114,11 +113,9 @@ And the "Media Proxy" can be run with below command.
 ```bash
 $ media_proxy
 INFO: TCP Server listening on 0.0.0.0:8002
-INFO: gRPC Server listening on 0.0.0.0:8001
 ```
 
-This will start the "Media Proxy" program. When the "Media Proxy" program launches successfully, it will open two ports to listen for control messages:
-- gRPC port (default 8001) is for service mesh control plane connection.
+This will start the "Media Proxy" program. When the "Media Proxy" program launches successfully, it will open port to listen for control messages:
 - TCP port (default 8002) is for the connection with MCM SDK.
 
 To get a list of all supported parameters, use the "helper" function with the following command:
@@ -129,7 +126,6 @@ Usage: media_proxy [OPTION]
 -h, --help              Print this help and exit.
 -d, --dev=dev_port      PCI device port (defaults: 0000:31:00.0).
 -i, --ip=ip_address     IP address for media data transportation (defaults: 192.168.96.1).
--g, --grpc=port_number  Port number gRPC controller (defaults: 8001).
 -t, --tcp=port_number   Port number for TCP socket controller (defaults: 8002).
 ```
 

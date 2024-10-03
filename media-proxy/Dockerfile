@@ -15,8 +15,6 @@ ARG MTL_DIR="/opt/mtl"
 ARG DPDK_VER="23.11"
 ARG DPDK_DIR="/opt/dpdk"
 ARG XDP_DIR="/opt/xdp"
-ARG GPRC_VER="v1.58.0"
-ARG GRPC_DIR="/opt/grpc"
 # JPEGXS_VER Release v0.9
 ARG JPEGXS_VER="e1030c6c8ee2fb05b76c3fa14cccf8346db7a1fa"
 ARG JPEGXS_DIR="/opt/jpegxs"
@@ -51,7 +49,6 @@ RUN git config --global user.email "milosz.linkiewicz@intel.com" && \
     git clone --branch v${DPDK_VER} --depth 1 https://github.com/DPDK/dpdk.git ${DPDK_DIR} && \
     git clone --recurse-submodules https://github.com/xdp-project/xdp-tools.git ${XDP_DIR} && \
     git clone --depth 1 --branch v1.22.0 https://github.com/ofiwg/libfabric ${LIBFABRIC_DIR} && \
-    git clone --branch ${GPRC_VER} --recurse-submodules --depth 1 --shallow-submodules https://github.com/grpc/grpc ${GRPC_DIR} && \
     git clone https://github.com/OpenVisualCloud/SVT-JPEG-XS ${JPEGXS_DIR} && \
     git -C ${JPEGXS_DIR} checkout ${JPEGXS_VER} && \
     git am ${MTL_DIR}/patches/dpdk/${DPDK_VER}/*.patch
@@ -85,15 +82,6 @@ WORKDIR ${MTL_DIR}
 RUN ./build.sh && \
     DESTDIR="${PREFIX_DIR}" meson install -C build
 
-# gRPC
-WORKDIR ${GRPC_DIR}/cmake/build
-RUN cmake -DgRPC_BUILD_TESTS=OFF -DgRPC_INSTALL=ON ../.. && \
-    make -j `nproc` && \
-    make install && \
-    cmake -DgRPC_BUILD_TESTS=ON -DgRPC_INSTALL=ON ../.. && \
-    make -j `nproc` grpc_cli && \
-    cp grpc_cli "${PREFIX_DIR}/usr/local/bin/"
-
 # Build and install JPEG XS
 WORKDIR ${JPEGXS_DIR}/Build/linux
 RUN ./build.sh release install && \
@@ -118,7 +106,6 @@ RUN INSTALL_PREFIX="${PREFIX_DIR}/usr/local" ./build.sh && \
     rm -rf "${PREFIX_DIR}/usr/local/lib/lib"*.a && \
     rm -rf "${PREFIX_DIR}/usr/local/lib/x86_64-linux-gnu/"*.a && \
     rm -rf "${PREFIX_DIR}/usr/local/bin/dpdk-"* && \
-    rm -rf "${PREFIX_DIR}/usr/local/bin/grpc_cli" && \
     rm -rf "${PREFIX_DIR}/usr/local/bin/"*_plugin
 
 ARG IMAGE_CACHE_REGISTRY
@@ -133,7 +120,6 @@ LABEL org.opencontainers.image.vendor="Intel Corporation"
 LABEL org.opencontainers.image.licenses="BSD 3-Clause License"
 
 ARG MCM_DIR="/opt/mcm"
-ARG GRPC_DIR="/opt/grpc"
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Warsaw
 
