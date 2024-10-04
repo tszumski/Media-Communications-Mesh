@@ -310,8 +310,6 @@ int main(int argc, char** argv)
         param.payload_type = PAYLOAD_TYPE_ST30_AUDIO;
     } else if (strncmp(payload_type, "st40", sizeof(payload_type)) == 0) {
         param.payload_type = PAYLOAD_TYPE_ST40_ANCILLARY;
-    } else if (strncmp(payload_type, "rtsp", sizeof(payload_type)) == 0) {
-        param.payload_type = PAYLOAD_TYPE_RTSP_VIDEO;
     } else if (strncmp(payload_type, "rdma", sizeof(payload_type)) == 0) {
         param.payload_type = PAYLOAD_TYPE_RDMA_VIDEO;
     } else {

@@ -45,7 +45,6 @@ static int mcm_video_write_header(AVFormatContext* avctx)
         return err;
 
     switch (param.payload_type) {
-    case PAYLOAD_TYPE_RTSP_VIDEO:
     case PAYLOAD_TYPE_ST20_VIDEO:
     case PAYLOAD_TYPE_ST22_VIDEO:
         /* video format */

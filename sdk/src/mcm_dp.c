@@ -148,7 +148,6 @@ static void parse_memif_param(mcm_conn_param* request, memif_socket_args_t* memi
 
     case PAYLOAD_TYPE_ST20_VIDEO:
     case PAYLOAD_TYPE_ST22_VIDEO:
-    case PAYLOAD_TYPE_RTSP_VIDEO:
     default:
         memif_conn_args->buffer_size = request->payload_args.video_args.width * request->payload_args.video_args.height * 4;
     }

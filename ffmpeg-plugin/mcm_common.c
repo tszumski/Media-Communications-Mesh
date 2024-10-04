@@ -51,8 +51,6 @@ int mcm_parse_conn_param(AVFormatContext* avctx, mcm_conn_param *param,
         param->payload_type = PAYLOAD_TYPE_ST30_AUDIO;
     } else if (!strcmp(payload_type, "st40")) {
         param->payload_type = PAYLOAD_TYPE_ST40_ANCILLARY;
-    } else if (!strcmp(payload_type, "rtsp")) {
-        param->payload_type = PAYLOAD_TYPE_RTSP_VIDEO;
     } else {
         av_log(avctx, AV_LOG_ERROR, "Unknown payload type\n");
         return AVERROR(EINVAL);
