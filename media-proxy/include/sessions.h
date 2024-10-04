@@ -32,6 +32,7 @@ typedef struct {
         rx_st40_session_context_t *rx_st40_session;
         tx_rdma_session_context_t *tx_rdma_session;
         rx_rdma_session_context_t *rx_rdma_session;
+        void *common_ptr;
     };
 } dp_session_context_t;
 

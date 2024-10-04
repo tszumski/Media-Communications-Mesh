@@ -39,8 +39,6 @@ public:
 
     // direction mDir;
     std::vector<dp_session_context_t *> mDpCtx;
-    std::vector<rx_session_context_t*> mRxCtx;
-    std::vector<tx_session_context_t*> mTxCtx;
     mtl_handle mDevHandle = NULL;
     libfabric_ctx *mDevHandle_rdma = NULL;
 
@@ -71,18 +69,6 @@ public:
     std::string getTCPListenAddress(void);
     int getTCPListenPort(void);
 
-    void ParseStInitParam(const mcm_conn_param* request, struct mtl_init_params* init_param);
-
-    void ParseMemIFParam(const mcm_conn_param* request, memif_ops_t& memif_ops);
-
-    void ParseSt20TxOps(const mcm_conn_param* request, struct st20p_tx_ops* opts);
-    void ParseSt20RxOps(const mcm_conn_param* request, struct st20p_rx_ops* opts);
-    void ParseSt22TxOps(const mcm_conn_param* request, struct st22p_tx_ops* opts);
-    void ParseSt22RxOps(const mcm_conn_param* request, struct st22p_rx_ops* opts);
-    void ParseSt30TxOps(const mcm_conn_param* request, struct st30_tx_ops* opts);
-    void ParseSt30RxOps(const mcm_conn_param* request, struct st30_rx_ops* opts);
-    void ParseSt40TxOps(const mcm_conn_param* request, struct st40_tx_ops* opts);
-    void ParseSt40RxOps(const mcm_conn_param* request, struct st40_rx_ops* opts);
     int TxStart(const mcm_conn_param* request);
     int RxStart(const mcm_conn_param* request);
     void TxStop(const int32_t session_id);
@@ -97,6 +83,18 @@ private:
     ProxyContext& operator=(const ProxyContext&) = delete;
     uint32_t incrementMSessionCount(bool postIncrement);
     st_frame_fmt getStFrameFmt(video_pixel_format fmt);
+
+
+    void ParseStInitParam(const mcm_conn_param* request, struct mtl_init_params* init_param);
+    void ParseMemIFParam(const mcm_conn_param* request, memif_ops_t& memif_ops);
+    void ParseMTLParams(const mcm_conn_param* request, struct st20p_tx_ops& opts);
+    void ParseMTLParams(const mcm_conn_param* request, struct st20p_rx_ops& opts);
+    void ParseMTLParams(const mcm_conn_param* request, struct st22p_tx_ops& opts);
+    void ParseMTLParams(const mcm_conn_param* request, struct st22p_rx_ops& opts);
+    void ParseMTLParams(const mcm_conn_param* request, struct st30_tx_ops& opts);
+    void ParseMTLParams(const mcm_conn_param* request, struct st30_rx_ops& opts);
+    void ParseMTLParams(const mcm_conn_param* request, struct st40_tx_ops& opts);
+    void ParseMTLParams(const mcm_conn_param* request, struct st40_rx_ops& opts);
 
     int TxStart_mtl(const mcm_conn_param *request);
     int RxStart_mtl(const mcm_conn_param *request);
