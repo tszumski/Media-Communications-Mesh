@@ -13,36 +13,38 @@ ConfigureServiceImpl::ConfigureServiceImpl(ProxyContext* ctx)
 
 Status ConfigureServiceImpl::TxStart(ServerContext* context, const TxControlRequest* request, ControlReply* reply)
 {
+    std::cout << "\nReceived command: TxStart." << std::endl;
+
+    /*
     int session_id = 0;
     std::string ret_msg = "";
 
-    std::cout << "\nReceived command: TxStart." << std::endl;
-
-    session_id = m_ctx->TxStart(request);
     if (session_id >= 0) {
         ret_msg = std::to_string(session_id);
     } else {
         ret_msg = "Failed";
     }
     reply->set_message("Create MTL TX session: " + ret_msg);
+    */
 
     return Status::OK;
 }
 
 Status ConfigureServiceImpl::RxStart(ServerContext* context, const RxControlRequest* request, ControlReply* reply)
 {
+    std::cout << "\nReceived command: RxStart." << std::endl;
+
+    /*
     int session_id = 0;
     std::string ret_msg = "";
 
-    std::cout << "\nReceived command: RxStart." << std::endl;
-
-    session_id = m_ctx->RxStart(request);
     if (session_id >= 0) {
         ret_msg = std::to_string(session_id);
     } else {
         ret_msg = "Failed";
     }
     reply->set_message("Create MTL RX session: " + ret_msg);
+    */
 
     return Status::OK;
 }
@@ -51,8 +53,9 @@ Status ConfigureServiceImpl::TxStop(ServerContext* context, const StopControlReq
 {
     std::cout << "\nReceived command: Stop." << std::endl;
 
-    m_ctx->TxStop(request->session_id());
+    /*
     reply->set_message("gPRC reply: well received.");
+    */
 
     return Status::OK;
 }
@@ -61,8 +64,9 @@ Status ConfigureServiceImpl::RxStop(ServerContext* context, const StopControlReq
 {
     std::cout << "\nReceived command: Stop." << std::endl;
 
-    m_ctx->RxStop(request->session_id());
+    /*
     reply->set_message("gPRC reply: well received.");
+    */
 
     return Status::OK;
 }
@@ -71,8 +75,9 @@ Status ConfigureServiceImpl::Stop(ServerContext* context, const StopControlReque
 {
     std::cout << "\nReceived command: Stop." << std::endl;
 
-    m_ctx->Stop();
+    /*
     reply->set_message("gPRC reply: well received.");
+    */
 
     return Status::OK;
 }
@@ -106,6 +111,10 @@ Status HealthServiceImpl::Watch(ServerContext* context, const HealthCheckRequest
 
 void RunRPCServer(ProxyContext* ctx)
 {
+    std::cout << "\nWARNING: gRPC Server not implemented" << std::endl;
+    return;
+
+    /*
     ConfigureServiceImpl service(ctx);
 
     ServerBuilder builder;
@@ -116,4 +125,5 @@ void RunRPCServer(ProxyContext* ctx)
     INFO("gRPC Server listening on %s", ctx->getRPCListenAddress().c_str());
 
     server->Wait();
+    */
 }
