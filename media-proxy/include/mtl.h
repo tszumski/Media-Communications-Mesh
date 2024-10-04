@@ -16,6 +16,7 @@ extern "C" {
 #include <mtl/st40_api.h> /* st2110-40 */
 #include <mtl/st_pipeline_api.h> /* st2110 pipeline */
 #include <errno.h>
+#include <stdlib.h>
 
 #include <mcm_dp.h>
 
