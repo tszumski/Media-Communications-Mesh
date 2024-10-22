@@ -2,6 +2,7 @@
 #include <arpa/inet.h>
 
 #include "session-mtl.h"
+#include "session-rdma.h"
 
 #define PCI_ADDR "0000:4b:01.0"
 #define NET_ADDR "192.168.96.1"
@@ -70,5 +71,15 @@ TEST(media_proxy, session_rx_st30_constructor_null)
 TEST(media_proxy, session_tx_st30_constructor_null)
 {
     session *s = test_null<tx_st30_mtl_session, mtl_main_impl, st30_tx_ops>();
+    EXPECT_TRUE(s == nullptr);
+}
+
+TEST(media_proxy, session_tx_rdma_constructor_null) {
+    session *s = test_null<tx_rdma_session, libfabric_ctx, rdma_s_ops_t>();
+    EXPECT_TRUE(s == nullptr);
+}
+
+TEST(media_proxy, session_rx_rdma_constructor_null) {
+    session *s = test_null<rx_rdma_session, libfabric_ctx, rdma_s_ops_t>();
     EXPECT_TRUE(s == nullptr);
 }
