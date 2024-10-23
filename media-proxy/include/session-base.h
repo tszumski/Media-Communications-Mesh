@@ -18,11 +18,6 @@ using namespace std; // for atomic_bool
 
 #include <mcm_dp.h>
 
-// required for:
-// 1. memif_ops_t
-// 2. memif_buffer_alloc_timeout()
-// 3. memif_get_buffs_region()
-// 4. print_memif_details()
 #include "shm_memif.h" /* share memory */
 
 #include "utils.h"

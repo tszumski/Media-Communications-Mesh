@@ -8,6 +8,7 @@
 #include <charconv>
 #include <bsd/string.h>
 #include <algorithm>
+#include <arpa/inet.h>
 
 #include "proxy_context.h"
 
@@ -32,7 +33,7 @@ ProxyContext::ProxyContext(std::string_view rpc_addr, std::string_view tcp_addr)
         throw;
     }
 
-    st_pthread_mutex_init(&sessions_count_mutex_lock, NULL);
+    pthread_mutex_init(&sessions_count_mutex_lock, NULL);
 }
 
 void ProxyContext::setRPCListenAddress(std::string_view addr)
@@ -93,12 +94,12 @@ std::string ProxyContext::getDataPlanePort(void)
 uint32_t ProxyContext::incrementMSessionCount(bool postIncrement=true)
 {
     uint32_t retValue;
-    st_pthread_mutex_lock(&this->sessions_count_mutex_lock);  /* lock to protect mSessionCount from change by multi-session simultaneously */
+    pthread_mutex_lock(&this->sessions_count_mutex_lock);  /* lock to protect mSessionCount from change by multi-session simultaneously */
     if(postIncrement)
         retValue = (this->mSessionCount)++;
     else
         retValue = ++(this->mSessionCount);
-    st_pthread_mutex_unlock(&this->sessions_count_mutex_lock);
+    pthread_mutex_unlock(&this->sessions_count_mutex_lock);
     return retValue;
 }
 
