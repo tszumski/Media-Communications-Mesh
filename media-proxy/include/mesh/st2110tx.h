@@ -35,7 +35,7 @@ template <typename FRAME, typename HANDLE, typename OPS> class ST2110Tx : public
     int configure_common(context::Context& ctx, const std::string& dev_port,
                          const MeshConfig_ST2110& cfg_st2110) {
         int session_id = 0;
-        mtl_device = get_mtl_device(dev_port, MTL_LOG_LEVEL_CRIT, cfg_st2110.local_ip_addr, session_id);
+        mtl_device = get_mtl_device(dev_port, MTL_LOG_LEVEL_DEBUG, cfg_st2110.local_ip_addr, session_id);
         if (!mtl_device) {
             log::error("Failed to get MTL device");
             return -1;
