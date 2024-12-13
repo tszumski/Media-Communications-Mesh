@@ -42,6 +42,7 @@ set(MEMIF_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/libmemif)
 set(MCMDP_SAMPLE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/samples)
 set(PROTO_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../protos)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
+set(NLOHMANN_JSON ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/nlohmann)
 
 add_subdirectory(${MEMIF_DIR})
 
@@ -110,6 +111,8 @@ set_target_properties(mcm_dp PROPERTIES VERSION ${VERSION})
 set_target_properties(mcm_dp PROPERTIES POSITION_INDEPENDENT_CODE ON)
 # set_target_properties(mcm_dp PROPERTIES C_VISIBILITY_PRESET hidden)
 
+include_directories(${NLOHMANN_JSON})
+
 target_include_directories(mcm_dp PUBLIC
     ${MCMDP_INCLUDE_DIR}
     ${MEMIF_DIR}/src
@@ -117,6 +120,7 @@ target_include_directories(mcm_dp PUBLIC
     ${gRPC_INCLUDE_DIRS}
     ${PROTO_SRC_DIR}  # Include the directory where the generated files are located
 )
+
 target_link_libraries(mcm_dp PUBLIC memif gRPC::grpc++ protobuf::libprotobuf)
 
 add_subdirectory(${MCMDP_SAMPLE_DIR})
