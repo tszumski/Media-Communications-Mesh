@@ -66,11 +66,32 @@ struct Connection {
 
 enum Video_Format {
     VIDEO_FORMAT_INVALID,
+    // ST2110 RFC4175 compliant,
+    VIDEO_FORMAT_420_8BIT,  /**<  8-bit YUV 4:2:0 */
+    VIDEO_FORMAT_420_10BIT, /**< 10-bit YUV 4:2:0 */
+    VIDEO_FORMAT_420_12BIT, /**< 12-bit YUV 4:2:0 */
+    VIDEO_FORMAT_420_16BIT, /**< 16-bit YUV 4:2:0 */
+
+    VIDEO_FORMAT_422_8BIT,  /**<  8-bit YUV 4:2:2 */
+    VIDEO_FORMAT_422_10BIT, /**< 10-bit YUV 4:2:2 */
+    VIDEO_FORMAT_422_12BIT, /**< 12-bit YUV 4:2:2 */
+    VIDEO_FORMAT_422_16BIT, /**< 16-bit YUV 4:2:2 */
+
+    VIDEO_FORMAT_444_8BIT,  /**<  8-bit YUV 4:4:4 */
+    VIDEO_FORMAT_444_10BIT, /**< 10-bit YUV 4:4:4 */
+    VIDEO_FORMAT_444_12BIT, /**< 12-bit YUV 4:4:4 */
+    VIDEO_FORMAT_444_16BIT, /**< 16-bit YUV 4:4:4 */
+
+    VIDEO_FORMAT_RGB_8BIT,  /**<  8-bit RGB */
+    VIDEO_FORMAT_RGB_10BIT, /**< 10-bit RGB */
+    VIDEO_FORMAT_RGB_12BIT, /**< 12-bit RGB */
+    VIDEO_FORMAT_RGB_16BIT, /**< 16-bit RGB */
+
+    // Non-ST2110 RFC4175 compliant,
     VIDEO_FORMAT_NV12,        ///< planar YUV 4:2:0, 12bpp
     VIDEO_FORMAT_YUV422P,     ///< planar YUV 4:2:2, 16bpp
     VIDEO_FORMAT_YUV422P10LE, ///< planar YUV 4:2:2, 20bpp
     VIDEO_FORMAT_YUV444P10LE, ///< planar YUV 4:4:4, 30bpp
-    VIDEO_FORMAT_RGB8,        ///< packed RGB 3:3:2,  8bpp
     VIDEO_FORMAT_MAX
 };
 

@@ -104,22 +104,90 @@ int mesh_audio_ptime_to_st_ptime(int ptime, st30_ptime& st_ptime) {
     return 0; // Success
 }
 
-int mesh_video_format_to_st_format(Video_Format mesh_fmt, st_frame_fmt& st_fmt) {
+int mesh_video_format_to_st_format(Video_Format mesh_fmt, st_frame_fmt& in_out_fmt,
+                                   st20_fmt& transport_fmt) {
     switch (mesh_fmt) {
+    case VIDEO_FORMAT_420_8BIT:
+        transport_fmt = ST20_FMT_YUV_420_8BIT;
+        in_out_fmt = ST_FRAME_FMT_YUV420PLANAR8;
+        break;
+    case VIDEO_FORMAT_420_10BIT:
+        //transport_fmt = ST20_FMT_YUV_420_10BIT;
+        //in_out_fmt = ??? Not exist in st_frame_fmt
+        return -1;
+    case VIDEO_FORMAT_420_12BIT:
+        //transport_fmt = ST20_FMT_YUV_420_12BIT;
+        //in_out_fmt = ??? Not exist in st_frame_fmt
+        return -1;
+    case VIDEO_FORMAT_420_16BIT:
+        //transport_fmt = ST20_FMT_YUV_420_16BIT;
+        //in_out_fmt = ??? Not exist in st_frame_fmt
+        return -1;
+    case VIDEO_FORMAT_422_8BIT:
+        transport_fmt = ST20_FMT_YUV_422_8BIT;
+        in_out_fmt = ST_FRAME_FMT_YUV422PLANAR8;
+        break;
+    case VIDEO_FORMAT_422_10BIT:
+        transport_fmt = ST20_FMT_YUV_422_10BIT;
+        in_out_fmt =ST_FRAME_FMT_YUV422PLANAR10LE;
+        break;
+    case VIDEO_FORMAT_422_12BIT:
+        transport_fmt = ST20_FMT_YUV_422_12BIT;
+        in_out_fmt = ST_FRAME_FMT_YUV422PLANAR12LE;
+        break;
+    case VIDEO_FORMAT_422_16BIT:
+        //transport_fmt = ST20_FMT_YUV_422_16BIT;
+        //in_out_fmt = ??? Not exist in st_frame_fmt
+        return -1;
+    case VIDEO_FORMAT_444_8BIT:
+        //transport_fmt = ST20_FMT_YUV_444_8BIT;
+        //in_out_fmt = ??? Not exist in st_frame_fmt
+        return -1;
+    case VIDEO_FORMAT_444_10BIT:
+        transport_fmt = ST20_FMT_YUV_444_10BIT;
+        in_out_fmt = ST_FRAME_FMT_YUV444PLANAR10LE;
+        break;
+    case VIDEO_FORMAT_444_12BIT:
+        transport_fmt = ST20_FMT_YUV_444_12BIT;
+        in_out_fmt = ST_FRAME_FMT_YUV444PLANAR10LE;
+        break;
+    case VIDEO_FORMAT_444_16BIT:
+        //transport_fmt = ST20_FMT_YUV_444_16BIT;
+        //in_out_fmt = ??? Not exist in st_frame_fmt
+        return -1;
+    case VIDEO_FORMAT_RGB_8BIT:
+        transport_fmt = ST20_FMT_RGB_8BIT;
+        in_out_fmt = ST_FRAME_FMT_RGB8;
+        break;
+    case VIDEO_FORMAT_RGB_10BIT:
+        transport_fmt = ST20_FMT_RGB_10BIT;
+        in_out_fmt = ST_FRAME_FMT_GBRPLANAR10LE;
+        break;
+    case VIDEO_FORMAT_RGB_12BIT:
+        transport_fmt = ST20_FMT_RGB_12BIT;
+        in_out_fmt = ST_FRAME_FMT_GBRPLANAR12LE;
+        break;
+    case VIDEO_FORMAT_RGB_16BIT:
+        //transport_fmt = ST20_FMT_RGB_16BIT;
+        //in_out_fmt = ??? Not exist in st_frame_fmt
+        return -1;
+
+    // Not compatible with st2110 rfc4175
     case VIDEO_FORMAT_NV12:
-        st_fmt = ST_FRAME_FMT_YUV420CUSTOM8;
+        transport_fmt = ST20_FMT_YUV_420_8BIT;
+        in_out_fmt = ST_FRAME_FMT_YUV420CUSTOM8;
         break;
     case VIDEO_FORMAT_YUV422P:
-        st_fmt = ST_FRAME_FMT_YUV422PLANAR8;
+        transport_fmt = ST20_FMT_YUV_422_8BIT;
+        in_out_fmt = ST_FRAME_FMT_YUV422CUSTOM8;
         break;
     case VIDEO_FORMAT_YUV422P10LE:
-        st_fmt = ST_FRAME_FMT_YUV422PLANAR10LE;
+        transport_fmt = ST20_FMT_YUV_422_PLANAR10LE;
+        in_out_fmt = ST_FRAME_FMT_YUV422PLANAR10LE;
         break;
     case VIDEO_FORMAT_YUV444P10LE:
-        st_fmt = ST_FRAME_FMT_YUV444PLANAR10LE;
-        break;
-    case VIDEO_FORMAT_RGB8:
-        st_fmt = ST_FRAME_FMT_RGB8;
+        transport_fmt = ST20_FMT_YUV_444_10BIT;
+        in_out_fmt = ST_FRAME_FMT_YUV444PLANAR10LE;
         break;
     default:
         return -1; // Error: unknown format

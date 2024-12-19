@@ -29,7 +29,8 @@ int mesh_audio_format_to_st_format(int fmt, st30_fmt& st_fmt);
 int mesh_audio_sampling_to_st_sampling(int sampling, st30_sampling& st_sampling);
 int mesh_audio_ptime_to_st_ptime(int ptime, st30_ptime& st_ptime);
 
-int mesh_video_format_to_st_format(Video_Format mesh_fmt, st_frame_fmt& st_fmt);
+int mesh_video_format_to_st_format(Video_Format mesh_fmt, st_frame_fmt& in_out_fmt,
+                                   st20_fmt& transport_fmt);
 int mesh_pacing_to_st20_pacing(ST2110_Pacing mesh_pacing, st21_pacing& st_pacing);
 int mesh_pacing_to_st30_pacing(ST2110_Pacing mesh_pacing, st30_tx_pacing_way& st_pacing);
 int mesh_audio_format_to_st_format(Audio_Format mesh_fmt, st30_fmt& st_fmt);

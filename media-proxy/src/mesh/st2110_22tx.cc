@@ -89,7 +89,9 @@ Result ST2110_22Tx::configure(context::Context& ctx, const std::string& dev_port
     ops.height = cfg_video.height;
     ops.fps = st_frame_rate_to_st_fps(cfg_video.fps);
 
-    if (mesh_video_format_to_st_format(cfg_video.pixelFormat, ops.input_fmt)) {
+    st20_fmt tfmt_unused;
+
+    if (mesh_video_format_to_st_format(cfg_video.pixelFormat, ops.input_fmt, tfmt_unused)) {
         set_state(ctx, State::not_configured);
         return set_result(Result::error_bad_argument);
     }
